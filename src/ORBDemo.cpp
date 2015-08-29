@@ -29,7 +29,7 @@ int main(int argc, char** argv){
     // (yea, noticed for a fix/pr).
     // you will have to use cv::Ptr all the way down:
 
-    cv::Ptr<Feature2D> f2d = ORB::create();
+    cv::Ptr<xfeatures2d::SIFT> f2d = xfeatures2d::SIFT::create();
     // you get the picture, i hope..
 
     //-- Step 1: Detect the keypoints:
