@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+<<<<<<< HEAD
 ../src/DisplayImage.cpp 
 
 OBJS += \
@@ -11,6 +12,15 @@ OBJS += \
 
 CPP_DEPS += \
 ./src/DisplayImage.d 
+=======
+../src/ORBDemo.cpp 
+
+OBJS += \
+./src/ORBDemo.o 
+
+CPP_DEPS += \
+./src/ORBDemo.d 
+>>>>>>> ORBDemo
 
 
 # Each subdirectory must supply rules for building sources it contributes
