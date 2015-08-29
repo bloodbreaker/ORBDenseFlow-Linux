@@ -51,7 +51,6 @@ int main(int argc, char** argv){
     drawMatches(img_1, keypoints_1, img_2, keypoints_2, matches, match_visual,Scalar::all(-1), Scalar::all(-1),
             std::vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
     imshow("matching results", match_visual);
-    std::cout<<match_visual<<std::endl;
-
+    waitKey(0);
     return 0;
 }
