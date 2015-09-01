@@ -14,7 +14,7 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/imgproc.hpp"
-//#include "opencv2/xfeature2d.hpp"
+#include "opencv2/xfeatures2d.hpp"
 
 using namespace cv;
 
@@ -44,13 +44,18 @@ int main(int argc, char** argv){
     // (yea, noticed for a fix/pr).
     // you will have to use cv::Ptr all the way down:
 
-    cv::Ptr<Feature2D> f2d = ORB::create();
+    cv::Ptr<xfeatures2d::BriefDescriptorExtractor> f2d = xfeatures2d::BriefDescriptorExtractor::create();
     // you get the picture, i hope..
 
     //-- Step 1: Detect the keypoints:
+
+    // --- using detector
     std::vector<KeyPoint> keypoints_1, keypoints_2;
     f2d->detect( img_1, keypoints_1 );
     f2d->detect( img_2, keypoints_2 );
+
+    // --- using all the points
+
 
     //-- Step 2: Calculate descriptors (feature vectors)
     Mat descriptors_1, descriptors_2;
