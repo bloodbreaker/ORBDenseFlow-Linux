@@ -73,15 +73,20 @@ int main(int argc, char** argv){
     f2d->compute( img_1, keypoints_1, descriptors_1 );
 
     // -- Step 3: create a multi-channel Mat to store the distribution field
-
+    int nc;
+    typedef Vec<uchar, 32> vec32d;
+    std::vector<Mat> spectrum;
     Mat distribution_field(img_1.rows, img_1.cols, CV_8UC(32),Scalar::all(0));
+    for (i = 15; i < img_1.cols-15; i++)
+        for (j = 15; j < img_1.rows-15; j++)
+            for (nc = 0; nc <32; nc++)
+                distribution_field.at<vec32d>(j,i)=(descriptors_1.row(i*img_1.rows+j));
 
-
-
+    split(distribution_field, spectrum);
 
 
     namedWindow("matching results", WINDOW_AUTOSIZE);
-    imshow("matching results", match_visual);
+    imshow("matching results", spectrum[0]);
     waitKey(0);
     return 0;
 }
