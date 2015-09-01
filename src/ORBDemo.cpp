@@ -20,6 +20,7 @@ using namespace cv;
 
 int main(int argc, char** argv){
 
+    int i,j;
     // read images
     Mat img_1;
     Mat img_2;
@@ -50,26 +51,35 @@ int main(int argc, char** argv){
     //-- Step 1: Detect the keypoints:
 
     // --- using detector
-    std::vector<KeyPoint> keypoints_1, keypoints_2;
-    f2d->detect( img_1, keypoints_1 );
-    f2d->detect( img_2, keypoints_2 );
+//    std::vector<KeyPoint> keypoints_1, keypoints_2;
+//    f2d->detect( img_1, keypoints_1 );
+//    f2d->detect( img_2, keypoints_2 );
 
     // --- using all the points
+    std::vector<Point2f> points_1;
+    std::vector<KeyPoint> keypoints_1;
+    for (i = 15; i < img_1.cols-15; i++)
+        for (j = 15; j < img_1.rows-15; j++)
+            points_1.push_back(img_1.at<Point2f>(j,i));
+
+    // --- convert vector<point> to keypoint vector
+    KeyPoint::convert(points_1, keypoints_1);
+
+
 
 
     //-- Step 2: Calculate descriptors (feature vectors)
-    Mat descriptors_1, descriptors_2;
+    Mat descriptors_1;
     f2d->compute( img_1, keypoints_1, descriptors_1 );
-    f2d->compute( img_2, keypoints_2, descriptors_2 );
 
-    //-- Step 3: Matching descriptor vectors using BFMatcher :
-    BFMatcher matcher(NORM_HAMMING,true);
-    Mat match_visual;
+    // -- Step 3: create a multi-channel Mat to store the distribution field
 
-    std::vector< DMatch > matches;
-    matcher.match( descriptors_1, descriptors_2, matches );
-    drawMatches(img_1, keypoints_1, img_2, keypoints_2, matches, match_visual,Scalar::all(-1), Scalar::all(-1),
-            std::vector<char>(), DrawMatchesFlags::DRAW_RICH_KEYPOINTS );
+    Mat distribution_field(img_1.rows, img_1.cols, CV_8UC(32),Scalar::all(0));
+
+
+
+
+
     namedWindow("matching results", WINDOW_AUTOSIZE);
     imshow("matching results", match_visual);
     waitKey(0);
